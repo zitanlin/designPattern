@@ -1,4 +1,5 @@
-let getSingleton = function(fn) {
+// 
+function getSingletonInstance(fn) {
     let instance;
     return function() {
         if (instance) {
@@ -10,10 +11,11 @@ let getSingleton = function(fn) {
     }
 }
 
-function showLoading(flag = true) {
+// 要实现的单例对象
+function showLoadingSingleton(flag = true) {
     let divEle = document.createElement("div");
     let loadingImage = document.createElement("img");
-    loadingImage.src = "../media/image/loading.gif";
+    loadingImage.src = "../../../media/image/loading.gif";
     divEle.id = "loading-container";
 
     divEle.appendChild(loadingImage);

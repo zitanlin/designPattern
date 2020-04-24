@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
     <header>
-        <link rel="stylesheet" type="text/css" href="../media/css/loading.css" />
-        <script src="../media/js/jquery-3.1.1.min.js"></script>
-        <script src="../utils/loading_singleton.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../media/css/loading.css" />
+        <script src="../../../media/js/jquery-3.1.1.min.js"></script>
+        <script src="../../utils/loading_singleton.js"></script>
     </header>
 
     <body>
@@ -12,7 +12,7 @@
     </body>
 
     <script type="text/javascript">
-        let loading = getSingleton(showLoading);
+        let loading = getSingletonInstance(showLoadingSingleton);
 
         document.getElementById("loading-show").addEventListener("click", function() {
             loading(true);
