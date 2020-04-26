@@ -16,10 +16,14 @@
 
         document.getElementById("loading-show").addEventListener("click", function() {
             loading(true);
+
+            // loadingSingletonFactory.getInstance(true);
         })
 
         $("#loading-close").on("click", function() {
             loading(false);
+
+            // loadingSingletonFactory.getInstance(false);
         });
     </script>
 </html>
