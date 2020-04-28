@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="../../utils/subscriber.js"></script>
+    </head>
+    <body>
+        <button onclick="btnEmit()">触发</button>
+        <button onclick="removeSubscriber()">删除事件监听</button>
+
+        <script type="text/javascript">
+            var eventContainer = new EventContainer();
+            eventContainer.once('emit', emitCallback);
+
+            function btnEmit() {
+                eventContainer.emit('emit');
+            }
+
+            function emitCallback() {
+                console.log("---------- emit call back function is executed");
+            }
+
+            function removeSubscriber() {
+                eventContainer.remove('emit');
+            }
+        </script>
+    </body>
+</html>
