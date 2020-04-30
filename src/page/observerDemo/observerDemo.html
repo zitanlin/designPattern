@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <div>
+            <button onclick="changeData()">改变数据</button>
+            <button onclick="getData()">获取数据</button>
+        </div>
+
+        <script type="text/javascript">
+            var targetObj = {}
+            // 观察者处理方法
+            function observer() {
+                console.log("------ observer function 被执行");
+            }
+            Object.defineProperty(targetObj, "list", {
+                enumerable: true,
+                configurable: true,
+                set: function(value) {
+                    observer();
+                    list = value;
+                },
+                get: function() {
+                    return list;
+                }
+            });
+
+            function changeData() {
+                targetObj.data = { key: "hello" };
+            }
+
+            function getData() {
+                console.log("--- 修改 get 后获取的值 = ", taclearrgetObj.data);
+            }
+        </script>
+    </body>
+</html>

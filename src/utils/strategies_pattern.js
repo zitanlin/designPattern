@@ -93,7 +93,7 @@ Validator.prototype.start = function() {
 
 /**
  * 功    能: 【Validator 类实现方式二】: 校验方法入参个数不确定, 不同校验方法的入参个数不一致 
- * 实现思路: 通过 apply 实现
+ * 实现思路: 通过 apply 实现, 从而解决不同校验方法入参数量不一致的问题
  * 入    参:
  *          rule: string 类型, 校验规则, 例如: rule="isNonEmpty", rule="minLength:6"
  *          value: string 类型, 传入的 value 值
