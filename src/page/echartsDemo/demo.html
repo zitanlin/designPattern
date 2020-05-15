@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>ECharts</title>
+    </head>
+    <body>
+        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+        <div id="main" style="height: 98vh"></div>
+        <script src="../../../media/js/echarts-all.js"></script>
+
+        <script type="text/javascript">
+            var myChart = echarts.init(document.getElementById('main'));
+
+            // 攻击路径列表
+            var attackPathList = [{
+                attackIp: '1.1.1.1',                                        // 攻击 IP
+                attackTarget: ['1.1.1.2', '1.1.1.3', '1.1.1.4', '1.1.1.5']  // 被攻击 IP 列表
+            }, {
+                attackIp: '1.1.1.2',
+                attackTarget: ['1.1.1.6', '1.1.1.7']
+            }, {
+                attackIp: '1.1.1.3',
+                attackTarget: ['1.1.1.7', '1.1.1.10']
+            }, {
+                attackIp: '1.1.1.8',
+                attackTarget: ['1.1.1.9']
+            }];
+
+            // tempNodeList 中存放攻击点列表（有些攻击点也可能在被攻击列表中）、被攻击列表
+            var tempNodeList = attackPathList.reduce((cur, obj) => ({
+                attackList: [...cur.attackList, obj.attackIp],
+                targetList: [...cur.targetList, ...obj.attackTarget]
+            }), {attackList: [], targetList: []});
+            var realAttackList = tempNodeList.attackList.reduce((cur, val) => tempNodeList.targetList.indexOf(val) === -1 ? [...cur, val] : cur, []); // 纯攻击点列表
+            var allNodeList = [...new Set([...tempNodeList.attackList, ...tempNodeList.targetList])];   // 所有节点列表
+            // echarts 中绘制的所有节点（已去重处理）
+            var echartNodesList = allNodeList.map(val => ({
+                category: realAttackList.indexOf(val) !== -1 ? 0 : 1,
+                name: val
+            }));
+            // echarts 中节点连接关系
+            var echartLinkList = attackPathList.reduce((cur, obj) => [...cur, 
+                ...obj.attackTarget.map(val => ({
+                    source: obj.attackIp,
+                    target: val,
+                    weight: 1
+                }))]
+            , []);
+        
+            option = {
+                title : {
+                    text: '攻击关系',
+                    itemGap: -20,
+                    x:'center',
+                    y:'top'
+                },
+                tooltip : {
+                    trigger: 'item',
+                    formatter: '{a} : {b}'
+                },
+                legend: {
+                    x: 'right',
+                    y: 'bottom',
+                    data: ['攻击者','被攻击者']
+                },
+                series : [{
+                    type:'force',
+                    name : "资产 IP",
+                    ribbonType: false,
+                    categories : [{
+                        name: '攻击者',
+                        itemStyle: { 
+                            normal: {
+                                color: '#FACF7F', 
+                                borderColor: '#F59F00'
+                            }
+                        }
+                    },
+                    {
+                        name: '被攻击者',
+                        itemStyle: { 
+                            normal: {
+                                color: '#9DCFFF', 
+                                borderColor: '#0A88FF'
+                            }
+                        }
+                    }],
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true,
+                                textStyle: {
+                                    color: '#333'
+                                }
+                            },
+                            nodeStyle : {
+                                brushType : 'both',
+                                borderColor : 'rgba(255,215,0,0.4)',
+                                borderWidth : 1
+                            },
+                            linkStyle: {
+                                type: 'curve'
+                            }
+                        },
+                        emphasis: {
+                            label: {
+                                show: false
+                            },
+                            nodeStyle : {
+                            },
+                            linkStyle : {}
+                        }
+                    },
+                    linkSymbol: 'arrow',
+                    symbolSize: [20, 10],
+                    useWorker: false,
+                    minRadius : 15,
+                    maxRadius : 25,
+                    gravity: 1.1,
+                    scaling: 1.1,
+                    roam: 'move',
+                    nodes: echartNodesList,
+                    links : echartLinkList
+                }]
+            };
+
+            myChart.setOption(option);
+        </script>
+    </body>
+</html>
