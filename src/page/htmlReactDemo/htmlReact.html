@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../../media/js/react/antd.min.css">
+        <script src="../../../media/js/react/moment.min.js"></script>
+        <script src="../../../media/js/react/react-development.js"></script>
+        <script src="../../../media/js/react/react-dom-development.js"></script>
+        <script src="../../../media/js/react/antd.js"></script>
+        <script src="../../../media/js/react/babel.min.js" charset="utf-8"></script>
+    </head>
+
+    <body>
+        <div id="root"></div>
+        
+        <script type="text/babel">
+            class DisposeManagePage extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = {};
+                }
+
+                componentWillMount() {
+                    console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                } 
+
+                render() {
+                    return <div>
+                        hello world
+                        <antd.Button type="primary">OK</antd.Button>
+                        
+                        <antd.Select>
+                            <antd.Select.Option value="1">1</antd.Select.Option>
+                        </antd.Select>
+                    </div>
+                }
+            }
+
+            ReactDOM.render(<DisposeManagePage></DisposeManagePage>, document.getElementById("root"));
+        </script>
+    </body>
+</html>

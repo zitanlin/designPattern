@@ -6,7 +6,7 @@
     </head>
     <body>
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <div id="main" style="height: 98vh"></div>
+        <div id="main" style="height: 200px"></div>
         <script src="../../../media/js/echarts-all.js"></script>
 
         <script type="text/javascript">
@@ -32,13 +32,19 @@
                 attackList: [...cur.attackList, obj.attackIp],
                 targetList: [...cur.targetList, ...obj.attackTarget]
             }), {attackList: [], targetList: []});
+
+            console.log("--- temp node list = ", tempNodeList);
+
             var realAttackList = tempNodeList.attackList.reduce((cur, val) => tempNodeList.targetList.indexOf(val) === -1 ? [...cur, val] : cur, []); // 纯攻击点列表
+            console.log("-- list = ", realAttackList)
             var allNodeList = [...new Set([...tempNodeList.attackList, ...tempNodeList.targetList])];   // 所有节点列表
             // echarts 中绘制的所有节点（已去重处理）
             var echartNodesList = allNodeList.map(val => ({
                 category: realAttackList.indexOf(val) !== -1 ? 0 : 1,
                 name: val
             }));
+            console.log("--- node list = ", echartNodesList)
+            
             // echarts 中节点连接关系
             var echartLinkList = attackPathList.reduce((cur, obj) => [...cur, 
                 ...obj.attackTarget.map(val => ({
@@ -47,6 +53,8 @@
                     weight: 1
                 }))]
             , []);
+
+            console.log("--- attack list = ", echartLinkList)
         
             option = {
                 title : {
