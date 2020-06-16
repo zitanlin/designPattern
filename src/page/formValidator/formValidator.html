@@ -3,21 +3,36 @@
     <head>
         <script src="../../utils/strategies_pattern.js"></script>
     </head>
+    <style type="text/css">
+        .input-item {
+            width: 400px;
+            margin: 6px auto;
+            padding: 4px 6px;
+            height: 14px;
+        }
+    </style>
     <body>
-        <form action="">
-            <input type="text" placeholder="请输入用户名称……" />
-            <input type="text" placeholder="请输入用户密码……" />
-            <input type="phone" placeholder="请输入手机号……">
+        <form action="" style="display: flex; flex-direction: column;">
+            <input class="input-item" id="user-name" type="text" placeholder="请输入用户名称……" />
+            <input class="input-item" id="password" type="text" placeholder="请输入用户密码……" />
+            <input class="input-item" id="mobile-phone" type="phone" placeholder="请输入手机号……">
+            <input class="input-item" id="ipv4-address" type="text" placeholder="请输入 ipv4 地址……">
+            <input class="input-item" id="ipv6-address" type="text" placeholder="请输入 ipv6 地址……">
+            <input class="input-item" id="mac-address" type="text" placeholder="请输入 mac 地址……">
         </form>
-        <button onclick="formSubmit(); return false;">提交</button>
+        <button onclick="formSubmit(); return false;" style="margin-left: 45%;">提交</button>
 
         <script type="text/javascript">
             function validateFunc() {
                 var validator = new Validator();
+
                 var registerForm = {
-                    userName: 's',
-                    password: 'assd',
-                    phoneNum: '12'
+                    userName: document.getElementById("user-name").value,
+                    password: document.getElementById("password").value,
+                    phoneNum: document.getElementById("mobile-phone").value,
+                    ipv4Address: document.getElementById("ipv4-address").value,
+                    ipv6Address: document.getElementById("ipv6-address").value,
+                    macAddress: document.getElementById("mac-address").value,
                 }
                 
                 // utils/strategies_pattern.js 中 Validator 实现一
@@ -27,6 +42,10 @@
                 // utils/strategies_pattern.js 中 Validator 实现二
                 validator.add('isNonEmpty', registerForm.userName, '用户名不能为空');
                 validator.add('minLength:6', registerForm.password, '密码长度不能少于6位');
+                validator.add('isMobile', registerForm.phoneNum, '请输入正确的手机号');
+                validator.add('ipv4', registerForm.ipv4Address, '请输入正确的 ipv4 地址');
+                validator.add('ipv6', registerForm.ipv6Address, '请输入正确的 ipv6 地址');
+                validator.add('mac', registerForm.macAddress, '请输入正确的 mac 地址');
 
                 var errorMsg = validator.start(); // 一个个进行校验，获取校验结果
                 return errorMsg;
