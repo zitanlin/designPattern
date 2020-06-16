@@ -72,7 +72,7 @@ function Validator() {
  * 功    能: 【Validator 类实现方式一】: 所有的校验方法入参只有 2 个: value——待校验参数值; errorMsg——校验失败信息 
  * 实现思路: 可以通过 call 实现, 因为校验方法入参只有两个, 因此可通过 call 实现, 但是针对校验方法入参个数不定时, call 无法实现
  * 入    参:
- *          rule: string 类型, 校验规则, 例如: rule="isNonEmpty", rule="minLength:6"
+ *          rule: string 类型, 校验规则, 例如: rule="isNonEmpty", rule="minLength"
  *          value: string 类型, 传入的 value 值
  *          errorMsg: string 类型, 校验失败提示的信息, 例如: errorMsg="用户名不能为空", errorMsg="密码长度不能少于6位"
  * 返 回 值: 
@@ -80,7 +80,7 @@ function Validator() {
  */
 Validator.prototype.add = function(rule, value, errorMsg) {
 	this.cache.push(function() {
-		return strategies[rule].call(value, value, errorMsg);
+		return strategies[rule].call(null, value, errorMsg);
 	})
 };
 Validator.prototype.start = function() {
@@ -95,7 +95,7 @@ Validator.prototype.start = function() {
  * 功    能: 【Validator 类实现方式二】: 校验方法入参个数不确定, 不同校验方法的入参个数不一致 
  * 实现思路: 通过 apply 实现, 从而解决不同校验方法入参数量不一致的问题
  * 入    参:
- *          rule: string 类型, 校验规则, 例如: rule="isNonEmpty", rule="minLength:6"
+ *          rule: string 类型, 校验规则, 例如: rule="isNonEmpty", rule="minLength:6"(规则带有额外参数)
  *          value: string 类型, 传入的 value 值
  *          errorMsg: string 类型, 校验失败提示的信息, 例如: errorMsg="用户名不能为空", errorMsg="密码长度不能少于6位"
  * 返 回 值: 
@@ -108,7 +108,7 @@ Validator.prototype.add = function(rule, value, errorMsg) {
         var strategy = arr.shift();
         arr.unshift(value);
         arr.push(errorMsg);
-        return strategies[strategy].apply(value, arr);
+        return strategies[strategy].apply(null, arr);
     });
 }
 Validator.prototype.start = function() {
@@ -119,4 +119,3 @@ Validator.prototype.start = function() {
         }
     }
 };
-

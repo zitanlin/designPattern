@@ -15,14 +15,18 @@
             function validateFunc() {
                 var validator = new Validator();
                 var registerForm = {
-                    userName: 'ad',
-                    password: 'asasfdsd',
+                    userName: 's',
+                    password: 'assd',
                     phoneNum: '12'
                 }
                 
+                // utils/strategies_pattern.js 中 Validator 实现一
+                // validator.add('isNonEmpty', registerForm.userName, '用户名不能为空');
+                // validator.add('minLength', registerForm.password, '密码长度不能少于6位');
+                
+                // utils/strategies_pattern.js 中 Validator 实现二
                 validator.add('isNonEmpty', registerForm.userName, '用户名不能为空');
                 validator.add('minLength:6', registerForm.password, '密码长度不能少于6位');
-                validator.add('isMobile', registerForm.phoneNum, '手机号码不正确');
 
                 var errorMsg = validator.start(); // 一个个进行校验，获取校验结果
                 return errorMsg;
